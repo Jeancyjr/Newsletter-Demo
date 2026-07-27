@@ -1,0 +1,576 @@
+<title>Thera Appeal — Council Verdict</title>
+<style>
+  :root {
+    color-scheme: light dark;
+
+    /* Cold paper under fluorescent light — blue-grey bias, never cream */
+    --paper:      #F6F8FA;
+    --paper-sunk: #ECF0F4;
+    --card:       #FFFFFF;
+    --ink:        #16202B;
+    --ink-soft:   #4A5A6B;
+    --ink-faint:  #7B8B9B;
+    --rule:       #CBD5DF;
+    --rule-soft:  #E1E8EF;
+
+    /* Semantic — separate from identity accent */
+    --stamp:      #B3261E;  /* denial red: the verdict, the fatal risk */
+    --stamp-bg:   #FBEDEC;
+    --recover:    #0B6E62;  /* recovered-dollars teal: upside, high scores */
+    --recover-bg: #E7F2F0;
+    --flag:       #96650B;  /* adjudication amber: reshape, caution */
+    --flag-bg:    #FAF0DE;
+
+    --measure: 68ch;
+
+    --f-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --f-data:    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #0F141A;
+      --paper-sunk: #161D25;
+      --card:       #161D25;
+      --ink:        #E4EAF0;
+      --ink-soft:   #A2B0BE;
+      --ink-faint:  #6E7E8E;
+      --rule:       #2C3945;
+      --rule-soft:  #212C36;
+
+      --stamp:      #F0736A;
+      --stamp-bg:   #2A1614;
+      --recover:    #4CC3B0;
+      --recover-bg: #10241F;
+      --flag:       #D8A03F;
+      --flag-bg:    #241C0C;
+    }
+  }
+
+  /* Viewer toggle must win over the media query, in both directions */
+  :root[data-theme="dark"] {
+    --paper:      #0F141A;
+    --paper-sunk: #161D25;
+    --card:       #161D25;
+    --ink:        #E4EAF0;
+    --ink-soft:   #A2B0BE;
+    --ink-faint:  #6E7E8E;
+    --rule:       #2C3945;
+    --rule-soft:  #212C36;
+    --stamp:      #F0736A;
+    --stamp-bg:   #2A1614;
+    --recover:    #4CC3B0;
+    --recover-bg: #10241F;
+    --flag:       #D8A03F;
+    --flag-bg:    #241C0C;
+  }
+  :root[data-theme="light"] {
+    --paper:      #F6F8FA;
+    --paper-sunk: #ECF0F4;
+    --card:       #FFFFFF;
+    --ink:        #16202B;
+    --ink-soft:   #4A5A6B;
+    --ink-faint:  #7B8B9B;
+    --rule:       #CBD5DF;
+    --rule-soft:  #E1E8EF;
+    --stamp:      #B3261E;
+    --stamp-bg:   #FBEDEC;
+    --recover:    #0B6E62;
+    --recover-bg: #E7F2F0;
+    --flag:       #96650B;
+    --flag-bg:    #FAF0DE;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 78ch;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.25rem;
+  }
+
+  /* ---- shared type ---- */
+  .eyebrow {
+    font-family: var(--f-data);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  h1, h2, h3 { text-wrap: balance; font-family: var(--f-display); }
+  p { max-width: var(--measure); }
+  strong { font-weight: 650; color: var(--ink); }
+  code, .mono { font-family: var(--f-data); font-size: 0.88em; }
+
+  /* ---- masthead: a remittance-advice header ---- */
+  .masthead { display: flex; flex-direction: column; gap: 1.5rem; }
+  .masthead h1 {
+    font-size: clamp(2.1rem, 6.5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .masthead .sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* field grid, styled like the form the product parses */
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule-soft);
+  }
+  .field { background: var(--paper); padding: 0.7rem 0.9rem; }
+  .field dt {
+    font-family: var(--f-data);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.2rem;
+  }
+  .field dd {
+    margin: 0;
+    font-family: var(--f-data);
+    font-size: 0.86rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- the stamp: the one bold moment ---- */
+  .determination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2rem;
+    padding: 1.75rem 0;
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stamp {
+    flex: none;
+    border: 3px solid var(--flag);
+    color: var(--flag);
+    padding: 0.5rem 1.4rem 0.6rem;
+    transform: rotate(-3.5deg);
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+    border-radius: 3px;
+    opacity: 0.92;
+  }
+  .determination .read { flex: 1 1 18rem; }
+  .determination .read p { margin: 0.35rem 0 0; font-size: 1.05rem; }
+  .determination .read p:first-of-type { margin-top: 0.5rem; }
+
+  .tally {
+    font-family: var(--f-data);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally b { color: var(--stamp); font-weight: 700; }
+
+  /* ---- sections ---- */
+  section { display: flex; flex-direction: column; gap: 1.1rem; }
+  section > h2 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  section p { margin: 0; }
+
+  /* ---- convergence: what all reviewers independently hit ---- */
+  .findings { display: flex; flex-direction: column; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .finding {
+    background: var(--card);
+    padding: 1.15rem 1.25rem 1.25rem;
+    border-left: 4px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .finding.critical { border-left-color: var(--stamp); }
+  .finding.warn     { border-left-color: var(--flag); }
+  .finding h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+  }
+  .finding p { font-size: 0.96rem; color: var(--ink-soft); max-width: var(--measure); }
+  .finding .who {
+    font-family: var(--f-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---- score table ---- */
+  .scroller { overflow-x: auto; border: 1px solid var(--rule-soft); }
+  table { border-collapse: collapse; width: 100%; min-width: 34rem; }
+  caption { text-align: left; font-size: 0.9rem; color: var(--ink-soft); padding: 0 0 0.7rem; }
+  th, td { padding: 0.62rem 0.9rem; text-align: left; border-bottom: 1px solid var(--rule-soft); }
+  thead th {
+    font-family: var(--f-data);
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    background: var(--paper-sunk);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.who { font-weight: 650; white-space: nowrap; }
+  td.verdict-cell { color: var(--ink-soft); font-size: 0.94rem; }
+  .score {
+    font-family: var(--f-data);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.12rem 0.5rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .score.low  { background: var(--stamp-bg);   color: var(--stamp); }
+  .score.mid  { background: var(--flag-bg);    color: var(--flag); }
+  .score.high { background: var(--recover-bg); color: var(--recover); }
+
+  /* ---- the math block ---- */
+  .math {
+    background: var(--paper-sunk);
+    border: 1px solid var(--rule-soft);
+    padding: 1.2rem 1.3rem;
+    font-family: var(--f-data);
+    font-size: 0.84rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    overflow-x: auto;
+  }
+  .math b { color: var(--ink); font-weight: 700; }
+  .math .neg { color: var(--stamp); font-weight: 700; }
+  .math hr { border: 0; border-top: 1px solid var(--rule); margin: 0.7rem 0; }
+
+  /* ---- the test: a real sequence, so it earns numbering ---- */
+  ol.protocol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.4rem; counter-reset: step; }
+  ol.protocol > li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0 1rem;
+    counter-increment: step;
+  }
+  ol.protocol > li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--f-data);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--recover);
+    padding-top: 0.22rem;
+    font-variant-numeric: tabular-nums;
+  }
+  ol.protocol h3 { margin: 0 0 0.3rem; font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+  ol.protocol p { font-size: 0.96rem; color: var(--ink-soft); }
+  ol.protocol .grid-span { grid-column: 2; }
+
+  .killcheck {
+    border: 2px solid var(--stamp);
+    background: var(--stamp-bg);
+    padding: 1.15rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .killcheck .eyebrow { color: var(--stamp); }
+  .killcheck p { font-size: 0.98rem; color: var(--ink); }
+
+  /* ---- reshape list ---- */
+  ul.moves { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.95rem; }
+  ul.moves li {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) 1fr;
+    gap: 0.2rem 1.25rem;
+    align-items: baseline;
+    padding-bottom: 0.95rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  ul.moves li:last-child { border-bottom: 0; padding-bottom: 0; }
+  ul.moves .from-to {
+    font-family: var(--f-data);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--recover);
+    font-weight: 700;
+  }
+  ul.moves p { font-size: 0.96rem; color: var(--ink-soft); }
+  @media (max-width: 34rem) {
+    ul.moves li { grid-template-columns: 1fr; }
+  }
+
+  .footnote {
+    font-size: 0.84rem;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule);
+    padding-top: 1.1rem;
+    max-width: var(--measure);
+  }
+
+  a { color: var(--recover); text-underline-offset: 2px; }
+  a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--recover); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">Idea Council · Determination of Claim</p>
+    <h1>Thera Appeal</h1>
+    <p class="sub">Five independent reviewers were given the same brief and told not to be polite. This is the adjudication of the PRD as written — not of the founder, and not of the underlying problem, which is real.</p>
+
+    <dl class="fields">
+      <div class="field"><dt>Claim submitted</dt><dd>PRD v1 (post-pre-mortem)</dd></div>
+      <div class="field"><dt>Proposed price</dt><dd>$99.00 / mo · unlimited</dd></div>
+      <div class="field"><dt>Segment</dt><dd>Solo LCSW / LMFT / PsyD</dd></div>
+      <div class="field"><dt>Founder position</dt><dd>Cold start · no audience</dd></div>
+      <div class="field"><dt>Runway to first $</dt><dd>30–60 days</dd></div>
+      <div class="field"><dt>Reviewers in favor</dt><dd>0 of 5</dd></div>
+    </dl>
+  </header>
+
+  <div class="determination">
+    <div class="stamp">Reshape</div>
+    <div class="read">
+      <p class="eyebrow">Confidence: High</p>
+      <p><strong>Build the denial triage tool, not the appeal letter tool — and price it per event, not per month.</strong></p>
+      <p class="tally">Contrarian <b>2</b>/10 · Expansionist <b>8</b>/10 · Logician <b>3</b>/10 · Researcher <b>3</b>/10 · Buyer <b>3</b>/10</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Why</h2>
+    <p>The council split 8-to-low looks like disagreement, but it isn't. The bull case and the bear cases agree on the same sentence: <strong>the appeal letter is not the product.</strong> Where they differ is what to do about it — the Expansionist wants to keep the letter as free bait and sell the outcome data behind it; the others want to widen the job around it. Neither is defending the PRD as written. <strong>Not one reviewer argued for shipping this as specified.</strong> The 8/10 is a score for a different, adjacent business.</p>
+    <p>The one place the council genuinely collides, the Researcher wins on evidence. The Expansionist's central claim is that mental-health parity law is an unproductized legal hammer and therefore the moat. It is a real hammer — and it is already built and given away. Counterforce Health ships a mental-health parity module that cross-references denials against parity precedent and drafts appeals citing clinical standards, free to patients <em>and</em> clinics, grant-funded. That is §3.3's "legal anchoring," shipped, at $0. The bull case survives only in its second half: the outcome ledger, which nobody has.</p>
+  </section>
+
+  <section>
+    <h2>Where the reviewers converged</h2>
+    <p>Three failure modes were reached independently by reviewers who never saw each other's work. Independent convergence is the strongest signal this exercise produces.</p>
+
+    <div class="findings">
+      <article class="finding critical">
+        <span class="who">Contrarian · Buyer</span>
+        <h3>No BAA means the first honest sales call ends the conversation</h3>
+        <p>An EOB carries member ID, date of service, CPT and diagnosis — that is PHI, and a solo clinician is a covered entity. Uploading it to a vendor with no Business Associate Agreement is <em>the therapist's</em> violation, against their license and their malpractice carrier. The liability waiver in §3.4 does not cure this: HIPAA rights belong to the patient, who signed nothing. And the fix is expensive in exactly the wrong direction — HIPAA-eligible infrastructure plus a BAA chain that has to survive the leg where PHI reaches the model.</p>
+      </article>
+
+      <article class="finding critical">
+        <span class="who">Logician · Buyer · Contrarian</span>
+        <h3>A monthly subscription is the wrong shape for a twice-a-month event</h3>
+        <p>A solo therapist bills roughly 85–100 claims a month. A meaningful share get denied — but most denials are <em>corrections</em>, not appeals: lapsed eligibility, wrong member ID, COB not updated, duplicate, missing modifier, deductible applied. Those are fixed by resubmitting a corrected claim or by billing the patient. The genuinely appeal-shaped subset is 1–3 a month, sometimes zero. "Unlimited appeals" is a promise that invites the customer to count, and the count is what cancels the subscription in month two.</p>
+      </article>
+
+      <article class="finding warn">
+        <span class="who">All four bear-side reviewers</span>
+        <h3>You automated the middle 20% and left both hard ends</h3>
+        <p>The therapist doesn't learn about a denial from a mailed PDF — they learn from a $0 line item when the ERA posts, or from a client asking why they got a bill. That's upstream of your first screen. Downstream, a generic PDF is frequently the wrong artifact: payers want their own reconsideration form, through their own portal, to an address that varies by plan, inside a window that is 60 days for one payer and 180 for another. You hand over a download at the exact moment the real work begins.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>The arithmetic</h2>
+    <p>The Logician worked this from the bottom with no outside data, and the Buyer arrived at the same place from lived workflow. It is the cleanest reason the PRD fails as priced.</p>
+    <div class="math">
+      ~90 claims/mo &nbsp;→&nbsp; denials &nbsp;→&nbsp; <b>1–3 genuinely appealable</b> (rest are resubmits)<br>
+      1.5 appeals &nbsp;×&nbsp; ~$100 recaptured &nbsp;×&nbsp; ~40% win rate &nbsp;=&nbsp; <b>~$60/mo expected recovery</b>
+      <hr>
+      Price <b>$99/mo</b> against <b>$60/mo</b> recovered &nbsp;=&nbsp; <span class="neg">ROI below 1.0</span><br>
+      Effective cost <b>~$66 per appeal</b> to chase a <b>~$100</b> claim
+      <hr>
+      For $99 to clear a 3× buying bar → ~7–8 appealable denials/mo → <b>~450 claims/mo</b><br>
+      = a <b>5–6 clinician group practice</b> — which already pays a biller who does this and more
+    </div>
+    <p>The price is aimed at a customer the product isn't built for, and the product is built for a customer the price doesn't fit. Separately, the 7-day trial with one appeal credit fully discharges the median customer's monthly need before any money changes hands — and an appeal takes 30–45 days to come back, so the trial window structurally cannot demonstrate that the letter works.</p>
+  </section>
+
+  <section>
+    <h2>What the market already charges</h2>
+    <p>The Researcher's finding is the one that most directly contradicts the PRD: <strong>nobody successfully charges providers a recurring subscription for this, and the two most visible competitors give the output away.</strong> Fight Paperwork removed its subscription wall entirely for providers. The only players charging money charge per case.</p>
+    <div class="scroller">
+      <table>
+        <caption>Cited market prices. Verify current figures before acting — these move.</caption>
+        <thead>
+          <tr><th scope="col">What</th><th scope="col">Price</th><th scope="col">Bearing on the PRD</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Counterforce Health</td><td><span class="score high">$0</span></td><td class="verdict-cell">Free to patients and clinics. Already ships the mental-health parity wedge.</td></tr>
+          <tr><td class="who">Fight Paperwork</td><td><span class="score high">$0</span></td><td class="verdict-cell">Provider-side AI billing chat and generated letters; dropped its paywall.</td></tr>
+          <tr><td class="who">Claimable</td><td><span class="score mid">~$40–50</span></td><td class="verdict-cell">Per case, patient-side. The only pricing shape shown to work.</td></tr>
+          <tr><td class="who">SimplePractice Plus</td><td><span class="score mid">$99/mo</span></td><td class="verdict-cell">Your exact price buys a whole EHR — scheduling, notes, telehealth, claims.</td></tr>
+          <tr><td class="who">TherapyNotes solo</td><td><span class="score mid">$69/mo</span></td><td class="verdict-cell">Sets the realistic ceiling for a single-feature bolt-on far below $99.</td></tr>
+          <tr><td class="who">Supabase HIPAA</td><td><span class="score low">$599/mo+</span></td><td class="verdict-cell">Team plan plus paid add-on before it may touch PHI. Fixed cost, day one.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The compliance floor deserves its own line, because it inverts the business before it starts. OpenAI will sign a BAA for API customers on zero-retention endpoints — that part is solvable. <strong>Lovable offers no BAA and makes no HIPAA claim</strong>, and Supabase requires the $599 Team plan plus an add-on. So the stack named in §4 cannot lawfully be the production stack, and the version that can costs roughly <strong>$600–950/month before customer one</strong> — six to ten subscribers just to break even on infrastructure, in a market where the closest substitute is free.</p>
+  </section>
+
+  <section>
+    <h2>The panel</h2>
+    <div class="scroller">
+      <table>
+        <caption>Each reviewer scored only their own dimension. 1 = walk away, 10 = no-brainer.</caption>
+        <thead>
+          <tr><th scope="col">Reviewer</th><th scope="col">Score</th><th scope="col">Their one line</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="who">Contrarian</td>
+            <td><span class="score low">2/10</span></td>
+            <td class="verdict-cell">Dies of distribution before anyone learns whether the letter is any good — and if it survives that, it dies on the BAA question.</td>
+          </tr>
+          <tr>
+            <td class="who">Expansionist</td>
+            <td><span class="score high">8/10</span></td>
+            <td class="verdict-cell">The letter is worthless as a product and enormously valuable as a wedge; whoever holds the EOB stream owns behavioral-health revenue cycle.</td>
+          </tr>
+          <tr>
+            <td class="who">Logician</td>
+            <td><span class="score low">3/10</span></td>
+            <td class="verdict-cell">The mechanism works; the arithmetic doesn't. $99 costs two-thirds of the single claim it recovers.</td>
+          </tr>
+          <tr>
+            <td class="who">Researcher</td>
+            <td><span class="score low">3/10</span></td>
+            <td class="verdict-cell">The real world says no to this configuration, not to the problem — competitors ship the identical wedge for free and the stack can't lawfully hold PHI.</td>
+          </tr>
+          <tr>
+            <td class="who">Buyer</td>
+            <td><span class="score low">3/10</span></td>
+            <td class="verdict-cell">The letter was never the expensive part of my denial problem, and you're charging a subscription for something that happens to me twice a month.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Risk and upside</h2>
+    <div class="findings">
+      <article class="finding critical">
+        <span class="who">Most likely to kill it</span>
+        <h3>PHI without a BAA — a legal wall, not a growth problem</h3>
+        <p>Every other objection here is fixable with pricing and scope. This one gates whether you may accept the first customer's document at all, it is the first question an audited therapist asks, and clearing it properly costs more per month than your first six subscribers pay — while the nearest substitute is free. It has to be answered before the funnel, not after.</p>
+      </article>
+      <article class="finding">
+        <span class="who">Strongest reason to do it</span>
+        <h3>Nobody owns behavioral-health appeal outcome data</h3>
+        <p>The letter is a commodity — a general-purpose model writes it, and two funded competitors give it away. A payer-level ledger of what actually gets <em>overturned</em> — by denial code, payer, CPT, and argument used — is not a commodity, does not exist, and compounds with every appeal run through the system. It is what turns a price into performance pricing and what makes an EHR or billing network want to buy you instead of clone you. It is also the one asset the free competitors are not structurally motivated to build.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Money read</h2>
+    <p><strong>Price.</strong> $29–49 per appeal — which is, not coincidentally, exactly what the one competitor that successfully charges money charges. Per-event pricing flips the customer's math from 0.6× to roughly 3×, removes the recurring cancel decision, and turns churn from a failure into a non-event. If you want a subscription at all, the ceiling evidence puts a single-feature bolt-on at $15–29/mo, not $99. Hold three figures back for group practices and billing services, where the volume math already closes.</p>
+    <p><strong>Time to first dollar.</strong> A $99/mo subscription sold cold to solo therapists inside 60 days is unlikely. A $29 one-off, bought in the moment of pain, is plausible. Note which of those two your deadline can actually survive.</p>
+    <p><strong>Can you ship fast?</strong> Yes — and it doesn't help. An AI-assisted build makes this a days-long project, which means <em>building was never the bottleneck</em>. Therapists don't answer cold email, aren't on LinkedIn for vendors, and the communities where they gather ban vendor promotion on sight. You are about to spend a 30–60 day runway on the one part that was already cheap.</p>
+    <p><strong>The denominator is shrinking underneath you.</strong> Roughly 38% of psychologists accept no insurance at all, and the therapists who do are migrating to Headway, Alma and Grow — platforms that absorb denials on the provider's behalf and monetize as a cut of reimbursement rather than a line item. "Solo therapist who bills insurance themselves" is the residual after that migration, self-selected for having chosen to keep 100% of reimbursement rather than pay a platform. That is the most price-sensitive cohort in the market, and you are asking it for the most money.</p>
+  </section>
+
+  <section>
+    <h2>The cheapest 48-hour test</h2>
+    <p>Write no product code. Sell the outcome by hand first. Two riskiest assumptions sit under the whole PRD — that <strong>the denials therapists actually receive are appealable at all</strong>, and that <strong>a therapist will hand money to a stranger to fix one</strong>. A concierge test answers both in the same motion, for $0, without touching a line of the stack.</p>
+
+    <ol class="protocol">
+      <li>
+        <h3>Offer twenty self-billing therapists a hand-written appeal for $40</h3>
+        <p class="grid-span">Find them where they already are — private-practice and therapist-billing groups, local licensure networks, group-practice owners. The offer is literal: send me your last denial, I'll write the appeal myself, $40. You are not pretending to have software. You are finding out if the job is worth money.</p>
+      </li>
+      <li>
+        <h3>Take the denial de-identified</h3>
+        <p class="grid-span">Ask for the payer, the CARC/RARC code, the CPT and the denial language — not the client's name or member ID. No PHI in your hands means no BAA required, which is the entire reason this test is legal to run tomorrow and the $99/mo product is not.</p>
+      </li>
+      <li>
+        <h3>Sort everything that arrives into four buckets</h3>
+        <p class="grid-span">Resubmit a corrected claim · bill the patient · genuinely appeal · call the payer. This sort costs an afternoon and tells you whether you are building an appeal-letter tool or a triage tool. Log every one from the first day — that log is the outcome ledger, and it is the actual asset.</p>
+      </li>
+      <li>
+        <h3>Read the two numbers that decide the product</h3>
+        <p class="grid-span">How many of the twenty paid the $40? And what share of what they sent was genuinely appealable rather than a resubmission? Everything in the PRD is downstream of those two figures.</p>
+      </li>
+    </ol>
+
+    <div class="killcheck">
+      <p class="eyebrow">Two kill conditions</p>
+      <p><strong>If nobody pays $40 for you to write one by hand</strong>, the $99/mo product has no floor under it and no amount of UI fixes that. <strong>If under roughly 30% of what arrives is genuinely appealable</strong>, the PRD's central premise is wrong — build the thing that reads a denial and says which of the four actions is correct. That event happens weekly instead of quarterly, it has a determinable right answer, and appeal generation becomes one branch of it rather than the whole product.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>If you reshape</h2>
+    <p>Six changes. None require different technology, and none invalidate the work already in the PRD — §3.2's verification UI and §3.4's waiver survive intact, and read as compliance assets rather than friction once you sell to groups and billers.</p>
+    <ul class="moves">
+      <li>
+        <span class="from-to">Job → triage</span>
+        <p>Lead with "what is this denial and what do I do about it," not "write me a letter." Roughly 4× the frequency, a verifiable right answer, and it makes the letter a feature instead of the whole product.</p>
+      </li>
+      <li>
+        <span class="from-to">$99/mo → per appeal</span>
+        <p>$29–49 an event. Match the pricing shape to the usage shape. Reintroduce a subscription only once triage gives it a weekly reason to exist.</p>
+      </li>
+      <li>
+        <span class="from-to">PDF → submission packet</span>
+        <p>Output the payer's actual required form, the correct portal or address, and the filing deadline. This is the part the customer said they'd pay $99 for.</p>
+      </li>
+      <li>
+        <span class="from-to">PHI → de-identified</span>
+        <p>Ship a paste-only MVP that never touches identifiers. It sidesteps the BAA wall entirely for validation and buys you months to build the real compliance chain — or to learn you don't need to.</p>
+      </li>
+      <li>
+        <span class="from-to">Cold solos → the layer above</span>
+        <p>Billing services and 5–30 clinician group practices. Ten relationships instead of a thousand customers, and they already hold BAAs. Pair it with long-tail pages on specific denial codes, where the search intent already exists at the moment of the wound.</p>
+      </li>
+      <li>
+        <span class="from-to">Logs → outcome ledger</span>
+        <p>§4's structured logging is listed as a post-launch nice-to-have. Move it to day one and make it the asset: denial code, payer, CPT, argument used, result, dollars recovered. Every month generating letters without capturing outcomes is compounding you never get back.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <p class="footnote" style="border-top:0; padding-top:0;">Competitors and pricing: <a href="https://www.counterforcehealth.org/">Counterforce Health</a> and its <a href="https://www.counterforcehealth.org/post/how-to-fight-back-when-your-mental-health-care-is-denied/">parity module</a> · <a href="https://www.fightpaperwork.com/">Fight Paperwork</a> · <a href="https://www.getclaimable.com/">Claimable</a> · <a href="https://www.simplepractice.com/pricing/">SimplePractice pricing</a>. Compliance: <a href="https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai">OpenAI BAA</a> · <a href="https://supabase.com/docs/guides/security/hipaa-compliance">Supabase HIPAA</a> · <a href="https://www.specode.ai/blog/lovable-hipaa-compliant">Lovable HIPAA status</a>. Denial and reimbursement data: <a href="https://pimsyehr.com/mental-health-claims/">behavioral-health denial rates</a> · <a href="https://www.billingparadise.com/blog/appealed-claims-cost-of-denials/">cost to appeal and the 66% never-appealed figure</a> · <a href="https://www.upstatehealthcareadmin.com/post/insurance-reimbursement-rates-for-therapists-in-2026-what-cpt-90837-90834-and-90832-actually-pay">90837 reimbursement</a> · <a href="https://medsolercm.com/blog/co-197-denial-code-guide">CO-197 denial guidance</a>.</p>
+  </section>
+
+  <p class="footnote">Reviewers were run independently against an identical brief and instructed not to hedge; the adversarial framing is deliberate and the scores are theirs, not a consensus. Figures above are cited third-party estimates for outpatient behavioral health, not audited numbers for your market, and pricing pages move — verify against real EOBs and current vendor pricing before committing to the arithmetic. Nothing here is legal or compliance advice; the HIPAA question in particular needs an answer from someone qualified to give one.</p>
+
+</main>

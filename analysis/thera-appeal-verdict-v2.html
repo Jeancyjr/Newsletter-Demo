@@ -1,0 +1,445 @@
+<title>Thera Appeal v2 — Council Re-determination</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --paper:      #F6F8FA;
+    --paper-sunk: #ECF0F4;
+    --card:       #FFFFFF;
+    --ink:        #16202B;
+    --ink-soft:   #4A5A6B;
+    --ink-faint:  #7B8B9B;
+    --rule:       #CBD5DF;
+    --rule-soft:  #E1E8EF;
+    --stamp:      #B3261E;
+    --stamp-bg:   #FBEDEC;
+    --recover:    #0B6E62;
+    --recover-bg: #E7F2F0;
+    --flag:       #96650B;
+    --flag-bg:    #FAF0DE;
+    --measure: 68ch;
+    --f-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --f-data:    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0F141A; --paper-sunk: #161D25; --card: #161D25;
+      --ink: #E4EAF0; --ink-soft: #A2B0BE; --ink-faint: #6E7E8E;
+      --rule: #2C3945; --rule-soft: #212C36;
+      --stamp: #F0736A; --stamp-bg: #2A1614;
+      --recover: #4CC3B0; --recover-bg: #10241F;
+      --flag: #D8A03F; --flag-bg: #241C0C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F141A; --paper-sunk: #161D25; --card: #161D25;
+    --ink: #E4EAF0; --ink-soft: #A2B0BE; --ink-faint: #6E7E8E;
+    --rule: #2C3945; --rule-soft: #212C36;
+    --stamp: #F0736A; --stamp-bg: #2A1614;
+    --recover: #4CC3B0; --recover-bg: #10241F;
+    --flag: #D8A03F; --flag-bg: #241C0C;
+  }
+  :root[data-theme="light"] {
+    --paper: #F6F8FA; --paper-sunk: #ECF0F4; --card: #FFFFFF;
+    --ink: #16202B; --ink-soft: #4A5A6B; --ink-faint: #7B8B9B;
+    --rule: #CBD5DF; --rule-soft: #E1E8EF;
+    --stamp: #B3261E; --stamp-bg: #FBEDEC;
+    --recover: #0B6E62; --recover-bg: #E7F2F0;
+    --flag: #96650B; --flag-bg: #FAF0DE;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--f-body); font-size: 17px; line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 78ch; margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+    display: flex; flex-direction: column; gap: 3.25rem;
+  }
+  .eyebrow {
+    font-family: var(--f-data); font-size: 0.7rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  h1, h2, h3 { text-wrap: balance; font-family: var(--f-display); }
+  p { max-width: var(--measure); }
+  strong { font-weight: 650; color: var(--ink); }
+  code, .mono { font-family: var(--f-data); font-size: 0.88em; }
+
+  .masthead { display: flex; flex-direction: column; gap: 1.5rem; }
+  .masthead h1 {
+    font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 800;
+    letter-spacing: -0.035em; line-height: 1.02; text-transform: uppercase; margin: 0;
+  }
+  .masthead .sub { font-size: 1.05rem; color: var(--ink-soft); max-width: 60ch; margin: 0; }
+
+  .fields {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft);
+  }
+  .field { background: var(--paper); padding: 0.7rem 0.9rem; }
+  .field dt {
+    font-family: var(--f-data); font-size: 0.65rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.2rem;
+  }
+  .field dd {
+    margin: 0; font-family: var(--f-data); font-size: 0.86rem;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+
+  .determination {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2rem;
+    padding: 1.75rem 0; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--rule);
+  }
+  .stamp {
+    flex: none; border: 3px solid var(--flag); color: var(--flag);
+    padding: 0.5rem 1.4rem 0.6rem; transform: rotate(-3.5deg);
+    font-family: var(--f-display); font-weight: 800;
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem); letter-spacing: 0.02em;
+    text-transform: uppercase; line-height: 1; border-radius: 3px; opacity: 0.92;
+    text-align: center;
+  }
+  .stamp small { display: block; font-size: 0.42em; letter-spacing: 0.14em; opacity: 0.85; }
+  .determination .read { flex: 1 1 18rem; }
+  .determination .read p { margin: 0.35rem 0 0; font-size: 1.05rem; }
+  .determination .read p:first-of-type { margin-top: 0.5rem; }
+
+  section { display: flex; flex-direction: column; gap: 1.1rem; }
+  section > h2 {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint); margin: 0 0 0.25rem; padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  section p { margin: 0; }
+
+  .findings { display: flex; flex-direction: column; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .finding {
+    background: var(--card); padding: 1.15rem 1.25rem 1.25rem;
+    border-left: 4px solid var(--rule); display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .finding.critical { border-left-color: var(--stamp); }
+  .finding.warn     { border-left-color: var(--flag); }
+  .finding.good     { border-left-color: var(--recover); }
+  .finding h3 { margin: 0; font-size: 1.02rem; font-weight: 700; letter-spacing: -0.012em; }
+  .finding p { font-size: 0.96rem; color: var(--ink-soft); max-width: var(--measure); }
+  .finding .who {
+    font-family: var(--f-data); font-size: 0.66rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  .scroller { overflow-x: auto; border: 1px solid var(--rule-soft); }
+  table { border-collapse: collapse; width: 100%; min-width: 36rem; }
+  caption { text-align: left; font-size: 0.9rem; color: var(--ink-soft); padding: 0 0 0.7rem; }
+  th, td { padding: 0.62rem 0.9rem; text-align: left; border-bottom: 1px solid var(--rule-soft); }
+  thead th {
+    font-family: var(--f-data); font-size: 0.64rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--ink-faint); font-weight: 600; background: var(--paper-sunk);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.who { font-weight: 650; white-space: nowrap; }
+  td.verdict-cell { color: var(--ink-soft); font-size: 0.94rem; }
+  .score {
+    font-family: var(--f-data); font-variant-numeric: tabular-nums; font-weight: 700;
+    font-size: 0.9rem; padding: 0.12rem 0.5rem; border-radius: 2px; white-space: nowrap;
+  }
+  .score.low  { background: var(--stamp-bg);   color: var(--stamp); }
+  .score.mid  { background: var(--flag-bg);    color: var(--flag); }
+  .score.high { background: var(--recover-bg); color: var(--recover); }
+  .delta {
+    font-family: var(--f-data); font-variant-numeric: tabular-nums;
+    font-size: 0.82rem; font-weight: 700; white-space: nowrap;
+  }
+  .delta.up   { color: var(--recover); }
+  .delta.flat { color: var(--ink-faint); }
+  td.prior { font-family: var(--f-data); font-size: 0.82rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+  .math {
+    background: var(--paper-sunk); border: 1px solid var(--rule-soft);
+    padding: 1.2rem 1.3rem; font-family: var(--f-data); font-size: 0.84rem;
+    line-height: 1.85; color: var(--ink-soft); font-variant-numeric: tabular-nums; overflow-x: auto;
+  }
+  .math b { color: var(--ink); font-weight: 700; }
+  .math .neg { color: var(--stamp); font-weight: 700; }
+  .math hr { border: 0; border-top: 1px solid var(--rule); margin: 0.7rem 0; }
+
+  ol.protocol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.4rem; counter-reset: step; }
+  ol.protocol > li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 0 1rem; counter-increment: step; }
+  ol.protocol > li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--f-data); font-size: 0.78rem; font-weight: 700;
+    color: var(--recover); padding-top: 0.22rem; font-variant-numeric: tabular-nums;
+  }
+  ol.protocol h3 { margin: 0 0 0.3rem; font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+  ol.protocol p { font-size: 0.96rem; color: var(--ink-soft); }
+  ol.protocol .grid-span { grid-column: 2; }
+
+  .killcheck {
+    border: 2px solid var(--stamp); background: var(--stamp-bg);
+    padding: 1.15rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .killcheck .eyebrow { color: var(--stamp); }
+  .killcheck p { font-size: 0.98rem; color: var(--ink); }
+
+  .patch {
+    border: 2px solid var(--recover); background: var(--recover-bg);
+    padding: 1.15rem 1.3rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .patch .eyebrow { color: var(--recover); }
+  .patch p { font-size: 0.98rem; color: var(--ink); }
+  .patch .fix { font-family: var(--f-data); font-size: 0.84rem; color: var(--ink); line-height: 1.7; }
+
+  ul.moves { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.95rem; }
+  ul.moves li {
+    display: grid; grid-template-columns: minmax(0, 11rem) 1fr; gap: 0.2rem 1.25rem;
+    align-items: baseline; padding-bottom: 0.95rem; border-bottom: 1px solid var(--rule-soft);
+  }
+  ul.moves li:last-child { border-bottom: 0; padding-bottom: 0; }
+  ul.moves .from-to {
+    font-family: var(--f-data); font-size: 0.72rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--recover); font-weight: 700;
+  }
+  ul.moves p { font-size: 0.96rem; color: var(--ink-soft); }
+  @media (max-width: 34rem) { ul.moves li { grid-template-columns: 1fr; } }
+
+  .footnote {
+    font-size: 0.84rem; color: var(--ink-faint);
+    border-top: 1px solid var(--rule); padding-top: 1.1rem; max-width: var(--measure);
+  }
+  a { color: var(--recover); text-underline-offset: 2px; }
+  a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--recover); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">Idea Council · Second Determination</p>
+    <h1>Thera Appeal v2</h1>
+    <p class="sub">The PRD was rewritten against the first verdict and resubmitted to the same five reviewers, each told what they had said before and instructed not to re-litigate it. Every score moved or held. None of them moved far enough.</p>
+
+    <dl class="fields">
+      <div class="field"><dt>Claim resubmitted</dt><dd>PRD v2 (reshaped)</dd></div>
+      <div class="field"><dt>Prior determination</dt><dd>RESHAPE · 19/50</dd></div>
+      <div class="field"><dt>This determination</dt><dd>RESHAPE · 25/50</dd></div>
+      <div class="field"><dt>Net movement</dt><dd>+6 · no reviewer above 8</dd></div>
+      <div class="field"><dt>Defects cured</dt><dd>3 of 3 named in round 1</dd></div>
+      <div class="field"><dt>New defects found</dt><dd>4</dd></div>
+    </dl>
+  </header>
+
+  <div class="determination">
+    <div class="stamp">Reshape<small>Second time</small></div>
+    <div class="read">
+      <p class="eyebrow">Confidence: High</p>
+      <p><strong>The product got materially better and the business did not. Stop designing and go sell the service to billing companies.</strong></p>
+      <p class="eyebrow" style="letter-spacing:0.1em;">Contrarian 3 · Expansionist 8 · Logician 5 · Researcher 3 · Buyer 6</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Why</h2>
+    <p>V2 genuinely cured all three defects that killed v1 — the reviewers say so themselves, and the Buyer doubled their score. But the council's diagnosis moved rather than resolved. Round one said <em>the economics don't work</em>. Round two says <em>the economics work and there is no way to reach anyone</em>: the free tier is already free in at least six places, the $39 artifact is a competitor's published loss-leader, and the acquisition channel is the single most damaged query class in 2026 search.</p>
+    <p>The tell is in the agreement pattern. Three reviewers, reasoning independently and from different disciplines, arrived at the <strong>same next move</strong> — and it isn't a product change. The Contrarian: "if the gate passes, do not build the software, serve the customers." The Logician: "spend the first month on one billing service with 100+ provider clients." The Researcher: "call 30 mental-health billers and ask what they'd pay for win-rate data on their own denials." That convergence is the verdict.</p>
+  </section>
+
+  <section>
+    <h2>Movement</h2>
+    <div class="scroller">
+      <table>
+        <caption>Same five reviewers, same dimensions, second submission.</caption>
+        <thead>
+          <tr><th scope="col">Reviewer</th><th scope="col">v1</th><th scope="col">v2</th><th scope="col">Δ</th><th scope="col">What moved them</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="who">Buyer</td><td class="prior">3</td>
+            <td><span class="score mid">6/10</span></td><td class="delta up">▲ 3</td>
+            <td class="verdict-cell">Got the pricing shape and payer-correct packets they asked for. Still can't remember the tool exists between denials.</td>
+          </tr>
+          <tr>
+            <td class="who">Logician</td><td class="prior">3</td>
+            <td><span class="score mid">5/10</span></td><td class="delta up">▲ 2</td>
+            <td class="verdict-cell">Per-transaction ROI now clears 1.0. The problem moved from price to volume — by roughly 10× in headcount.</td>
+          </tr>
+          <tr>
+            <td class="who">Contrarian</td><td class="prior">2</td>
+            <td><span class="score low">3/10</span></td><td class="delta up">▲ 1</td>
+            <td class="verdict-cell">Credits the triage insight. Says v2 traded three obvious deaths for four subtle ones.</td>
+          </tr>
+          <tr>
+            <td class="who">Researcher</td><td class="prior">3</td>
+            <td><span class="score low">3/10</span></td><td class="delta flat">— 0</td>
+            <td class="verdict-cell">Same score, different reasons. Better product, but every pillar is already someone else's free product.</td>
+          </tr>
+          <tr>
+            <td class="who">Expansionist</td><td class="prior">8</td>
+            <td><span class="score high">8/10</span></td><td class="delta flat">— 0</td>
+            <td class="verdict-cell">Holds. Says the reshape converted a gated tool into a denial-outcomes data company and raised the ceiling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Read the Expansionist's flat 8 carefully. It didn't hold because v2 delivered — it held because the Expansionist was <em>already</em> scoring the adjacent data business in round one, and v2 moved toward it. The bull has been consistent across both rounds: the letter is not the product, the ledger is.</p>
+  </section>
+
+  <section>
+    <h2>The one-field defect</h2>
+    <p>The Contrarian and the Researcher were given different mandates, no shared context, and no ability to see each other's work. Both independently found the same error in the same field, and both proposed the same fix. That is the highest-confidence finding this exercise has produced in either round.</p>
+
+    <div class="findings">
+      <article class="finding critical">
+        <span class="who">Contrarian · Researcher · independent agreement</span>
+        <h3>"Month/year of service" breaks the entire zero-PHI thesis</h3>
+        <p>HIPAA Safe Harbor at 45 CFR 164.514(b)(2) requires stripping <em>all</em> elements of dates except the year for dates directly related to an individual — and date of service is explicitly named. §5.1 of the PRD collects month and year. That single field means the data is not Safe Harbor de-identified, before any argument about re-identification.</p>
+        <p>The Researcher pushes it further: payer + code + CPT + amount + service date is the textbook definition of a <strong>Limited Data Set</strong>, which is a defined category that <em>remains PHI</em>, requires a Data Use Agreement, and — when the recipient uses it for the covered entity's health care operations, which is what triage is — folds those terms into a BAA. So "no PHI, therefore no BAA" is not a gray area. It is a citable miss on a named field.</p>
+      </article>
+      <article class="finding critical">
+        <span class="who">Contrarian</span>
+        <h3>The scrubber upgrades a disclaimer into a warranty</h3>
+        <p>V1's waiver was a disclaimer — it shifted risk. V2's client-side scrub is an affirmative technical representation, and a regex will not catch "services provided to J. Smith" or a non-standard member ID. The first paste that gets through means you have both received PHI without a BAA and told customers in writing that this could not happen. That is deceptive-practices territory, which unlike HIPAA has no covered-entity gatekeeping.</p>
+      </article>
+    </div>
+
+    <div class="patch">
+      <p class="eyebrow">The fix, per both reviewers</p>
+      <p class="fix">Collect <b>year only</b>. Compute the filing deadline <b>client-side</b> from a denial date that never leaves the browser. Delete the free-text paste box rather than scrubbing it — the Buyer independently called it "risk theater that reintroduces the exact doubt you engineered away."</p>
+      <p>Two of the three changes are one-line. With them the zero-PHI position becomes defensible; without them the product is a HIPAA violation sold to therapists as a compliance feature.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What v2 introduced or left standing</h2>
+    <div class="findings">
+      <article class="finding critical">
+        <span class="who">Researcher</span>
+        <h3>The free tier is already free, at least six times over</h3>
+        <p>Free CARC/RARC lookups with plain-English fixes exist at CureAdvantage, ClarixHealth, Lerasign, PUREDI, a free Chrome extension, and — most damagingly — PayerReady, which gives away 308 CARC plus 1,198 RARC codes <em>with appeal templates, root causes and prevention tips</em>. Nobody charges because the underlying X12 code list is a public standard that every frontier model has already memorized. X12 also updates it quarterly, so the "deterministic table" is a permanent treadmill, not a one-time build.</p>
+      </article>
+      <article class="finding critical">
+        <span class="who">Researcher</span>
+        <h3>The $39 packet is a competitor's content-marketing loss leader</h3>
+        <p>Muni Health already publishes per-payer appeal deadlines, submission routes, portal-vs-form guidance and letter templates as free indexed pages. EZAppeal does the AI letter at <strong>$3, first one free</strong>, and is already running the payer × CPT play into mental health with psych-testing appeal guides. Two of the biggest payers also have no form to sell: Cigna has no standard provider appeal form, and UnitedHealthcare's mechanism is the portal, not a downloadable PDF.</p>
+      </article>
+      <article class="finding critical">
+        <span class="who">Contrarian · Researcher · independent agreement</span>
+        <h3>The distribution channel is the worst query class in 2026 search</h3>
+        <p>"What does CO-197 mean" is a definitional informational query — near-universally answered inline by AI Overviews, with the large majority of those searches ending in no click at all. And payer × code × CPT is template-with-variable-substitution by definition, the exact pattern named in the March 2026 scaled-content-abuse enforcement, where affected page sets lost the majority of their traffic with no manual action and no notification. The plan's one viable acquisition channel is aimed into both problems at once.</p>
+      </article>
+      <article class="finding warn">
+        <span class="who">Logician · Contrarian, with arithmetic</span>
+        <h3>The outcome ledger is arithmetically unreachable</h3>
+        <p>A win rate needs roughly 30 observations for a ±18-point confidence interval and ~96 for ±10. The cell space is payers × codes × arguments — several hundred to several thousand cells — traffic is Zipfian, and day-35 response on a one-off purchase with no account runs maybe 20%. The Logician's arithmetic: <strong>~5,000 paid appeals, or roughly $195k of revenue, before a single cell says anything true.</strong> Worse, responders self-select toward wins, so the first numbers published would be biased upward — on indexed pages, to sell packets.</p>
+      </article>
+      <article class="finding warn">
+        <span class="who">Contrarian</span>
+        <h3>BILL THE PATIENT is a liability grenade on the free, unauthenticated path</h3>
+        <p>A deterministic table cannot know network status, contract terms, or whether the payer miscoded a group code — CO claims arriving as PR is routine. Telling an in-network therapist to bill a patient for what was actually a contractual adjustment induces a payer-contract violation and possible balance-billing exposure. Same for a wrong deadline: contractual timely-filing windows are invisible to you, public policy says 180 days, their contract may say 90, and one missed window posted in a 40,000-member therapist group ends distribution permanently.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the reshape genuinely fixed</h2>
+    <p>Credit where the reviewers gave it, because it tells you what to keep.</p>
+    <div class="findings">
+      <article class="finding good">
+        <span class="who">Buyer</span>
+        <h3>Typing the code beats uploading the PDF</h3>
+        <p>"CO-197, 90837, $132, March — that's fifteen seconds and no PDF wrangling. Real win, don't second-guess it." The zero-PHI input was assumed to be a sacrifice. The customer preferred it.</p>
+      </article>
+      <article class="finding good">
+        <span class="who">Logician · Buyer · Contrarian</span>
+        <h3>The deadline and the "not worth chasing" read are the actual product</h3>
+        <p>Three reviewers independently singled out the same two outputs. The filing deadline prevents the most common way therapists lose recoverable money — letting the window lapse by default. And the Buyer on the worth-chasing read: "telling me a $38 denied 90834 isn't worth forty minutes is permission to stop feeling guilty, and nobody else gives me that." Neither requires an LLM, a subscription, or PHI.</p>
+      </article>
+      <article class="finding good">
+        <span class="who">Buyer</span>
+        <h3>The merge fields are a non-issue</h3>
+        <p>"Filling in [PATIENT NAME] in Word is ninety seconds. That's not a chore, that's nothing — you're more worried about it than I am." The compliance workaround you expected to cost you the value proposition costs nothing. What the Buyer actually fears is a stale payer form: put "verified current as of [date]" on every packet and refund on form-grounds rejection.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>The arithmetic, second pass</h2>
+    <p>V2 repaired the per-transaction ROI that sank v1. It did so by moving the same problem from price to volume.</p>
+    <div class="math">
+      Appealable denials <b>1–3/mo</b> → only those clearing $39 convert → <b>~30–35%</b><br>
+      No account, no subscription, 2–6 months between events → <b>2–6 purchases/yr</b><br>
+      ARPU: <b>$90–210/year</b>
+      <hr>
+      A $100k business needs <b>500–1,100 paying users</b><br>
+      → ~15k–30k free triage sessions/yr at ~4% paywall conversion<br>
+      <span style="color:var(--ink-faint)">v1 needed 84 subscribers. v2 needs ~800 buyers.</span>
+      <hr>
+      $90–210 LTV <span class="neg">cannot absorb any paid CAC</span><br>
+      → leaves SEO and partnerships → <b>6–12 month fuse</b> vs. a <b>30–60 day</b> runway
+    </div>
+    <p>That last line is the whole problem, and it is not a pricing problem. As the Logician put it: the plan's economics and the founder's timeline are describing two different companies. The one channel that pays inside the runway is the one all three bears pointed at.</p>
+  </section>
+
+  <section>
+    <h2>The cheapest 48-hour test</h2>
+    <p>The round-one gate — 20 therapists, 3 pay $40 for a hand-written appeal — should still run, but three reviewers independently flagged that <strong>it validates v1's hypothesis, not v2's</strong>. It is warm, hand-sold and human-delivered; self-serve converts far worse. A pass proves less than it appears to, and the Contrarian's warning is the one to hold onto: if it passes, the temptation will be to read it as permission to build the software.</p>
+    <p>Run this alongside it. It costs phone calls and answers the question that actually gates the next twelve months.</p>
+
+    <ol class="protocol">
+      <li>
+        <h3>Call thirty mental-health billing services</h3>
+        <p class="grid-span">Not therapists. The layer above them — the companies charging 4–10% of collections who eat denials for a living, already hold BAAs, and have the claim volume a solo practice never will. Ten relationships instead of a thousand customers, and they can be reached by phone this week.</p>
+      </li>
+      <li>
+        <h3>Ask two questions and nothing else</h3>
+        <p class="grid-span">What would you pay for win-rate data on your own denials, broken out by payer and code? And would you pay me to work the appeals you currently write off? The first tests whether the ledger has a buyer before you can build it. The second tests whether there is a service business here right now.</p>
+      </li>
+      <li>
+        <h3>Ask the therapists you hand-write for one extra thing</h3>
+        <p class="grid-span">Email them at day 45 — not 35, per the Buyer, because a reconsideration is often still pending — with paid / denied / not yet. The response rate to that one email is the single variable the entire ledger thesis rests on, and you can measure it before writing any code.</p>
+      </li>
+    </ol>
+
+    <div class="killcheck">
+      <p class="eyebrow">What the answers mean</p>
+      <p><strong>If billers will pay for the data or the service</strong>, that is the business — build there, where the volume, the BAAs and the money already are, and let the therapist-facing tool be the sensor that feeds it. <strong>If the day-45 response rate comes back in the single digits</strong>, delete the ledger from the pitch and the practice tier from the roadmap, and ship only the free deadline-and-worth-chasing tool with a thin $39 branch. That is a small, honest, real product. It is not a company, and you should know which one you are building before you spend the runway.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>If you reshape again</h2>
+    <ul class="moves">
+      <li>
+        <span class="from-to">Month → year</span>
+        <p>One-line change. Compute deadlines client-side from a date that never leaves the browser, and delete the paste box instead of scrubbing it. Do this first — everything else is downstream of the legal claim being true.</p>
+      </li>
+      <li>
+        <span class="from-to">Answering → arrival</span>
+        <p>The Buyer's whole remaining objection: "the denial has to find me, I will not go find it." Without ERA detection, a five-minute EHR integration, or a forward-the-denial-email address, a twice-a-month tool gets forgotten. Solve arrival, not answering.</p>
+      </li>
+      <li>
+        <span class="from-to">Solos → billers</span>
+        <p>Named independently by all three bear-side reviewers as the first move. They have the volume, the BAAs, and a budget. The therapist tool becomes the funnel, not the business.</p>
+      </li>
+      <li>
+        <span class="from-to">Four verdicts → real instructions</span>
+        <p>RESUBMIT CORRECTED and CALL PAYER are the most frequent outputs and the least actionable — one names a class of fix, the other admits ignorance. Ship the 3–5 most common causes of this code on this CPT, and for CALL PAYER the provider line, the exact question, and what to have ready.</p>
+      </li>
+      <li>
+        <span class="from-to">Ledger → out of the pitch</span>
+        <p>Build the write path — three tables, one day — because the data is worth having. Take the win rates out of the pitch, the roadmap and the indexed pages until a cell is actually significant, which is thousands of appeals away.</p>
+      </li>
+      <li>
+        <span class="from-to">$39 → $25–29</span>
+        <p>The Buyer named $25–35 in round one and got $39: "at $25 I click without thinking; at $39 I do arithmetic, and arithmetic is where purchases die." A competitor is at $3. Drop the three-pack — asking someone with 24 denials a year to pre-commit is the subscription problem in a smaller box.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <p class="footnote" style="border-top:0; padding-top:0;">De-identification: <a href="https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html">HHS OCR de-identification guidance</a> · <a href="https://www.hipaajournal.com/limited-data-set-under-hipaa/">Limited Data Sets under HIPAA</a>. Free competing lookups: <a href="https://payerready.com/denial-codes">PayerReady</a> · <a href="https://www.cureadvantage.com/denial-code-lookup">CureAdvantage</a> · <a href="https://clarixhealth.com/denial-codes">ClarixHealth</a> · <a href="https://x12.org/codes/claim-adjustment-reason-codes">X12 CARC list</a>. Competing packets and pricing: <a href="https://muni.health/blog/insurance-appeal-deadlines-2026">Muni Health payer appeal deadlines</a> · <a href="https://www.ezappeal.com/">EZAppeal</a>. Search channel: <a href="https://sparktoro.com/blog/in-2026-less-than-one-third-of-google-searches-still-send-a-click/">SparkToro on zero-click search</a> · <a href="https://www.digitalapplied.com/blog/scaled-content-abuse-google-march-update-ai-pages-decimated">March 2026 scaled content abuse enforcement</a>. Billing-service economics: <a href="https://ardentpracticepartners.com/what-percentage-do-mental-health-medical-billing-companies-charge/">percentage-of-collections benchmarks</a>.</p>
+  </section>
+
+  <p class="footnote">Reviewers were run independently against an identical brief, each told their own round-one position and instructed not to re-litigate it. Scores are theirs, not a consensus. The Safe Harbor reading is two reviewers' interpretation of the regulation and is the highest-confidence finding here, but it is not legal advice — get it confirmed by someone qualified before relying on the zero-PHI position. Competitor pricing, search-policy effects and denial statistics are cited third-party figures that move; verify before committing.</p>
+
+</main>

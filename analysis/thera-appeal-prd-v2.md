@@ -2,6 +2,21 @@
 
 **Supersedes:** PRD v1 (post-pre-mortem)
 **Reason for reshape:** Council verdict RESHAPE, high confidence — 0 of 5 reviewers supported v1 as specified. See `thera-appeal-verdict.html`.
+**Status:** Reviewed. Second council verdict is RESHAPE again — see `thera-appeal-verdict-v2.html`. Body below is preserved as reviewed; required corrections are listed immediately under it.
+
+---
+
+## 0. Required corrections (post-review, not yet applied below)
+
+The second council round found one defect that invalidates §5.1's central claim. Two reviewers reached it independently, citing the same regulation and proposing the same fix.
+
+| # | Defect | Correction |
+|---|---|---|
+| 0.1 | §5.1 collects **month/year of service**. HIPAA Safe Harbor (45 CFR 164.514(b)(2)) strips all date elements *except year* for dates directly related to an individual, and date of service is named explicitly. Payer + code + CPT + amount + service date is a **Limited Data Set** — still PHI, requiring a DUA whose terms fold into a BAA. "No PHI, therefore no BAA" is false as written. | Collect **year only**. Compute the filing deadline **client-side** from a denial date that never leaves the browser. |
+| 0.2 | §5.1's paste scrubber converts v1's disclaimer into an affirmative technical warranty a regex cannot honor, creating deceptive-practices exposure on the first identifier that slips through. | **Delete the free-text paste box.** The target customer independently called it "risk theater." |
+| 0.3 | §5.2's BILL THE PATIENT verdict ships on a free, unauthenticated path without knowledge of network status or contract terms; payers routinely miscode CO as PR. | Gate the verdict behind an explicit network-status question and never state it as an instruction. |
+
+**Do not build §5.1 as written.** 0.1 and 0.2 are one-line changes and must land before any implementation.
 
 ---
 
